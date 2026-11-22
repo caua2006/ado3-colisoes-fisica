@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Colisão Inelástica — ADO-3</title>
+  <meta name="description" content="Simulação interativa de uma colisão perfeitamente inelástica entre dois blocos (ADO-3, Física: Práticas Extensivas).">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <h1>Colisão perfeitamente inelástica</h1>
+    <p class="subtitulo">Dois blocos numa reta. Depois do choque eles seguem juntos com
+      <span class="formula">V = (m<sub>1</sub>v<sub>1</sub> + m<sub>2</sub>v<sub>2</sub>) / (m<sub>1</sub> + m<sub>2</sub>)</span>.
+      Velocidade positiva aponta para a direita.</p>
+  </header>
+
+  <main class="layout">
+    <aside class="painel-controles superficie" aria-labelledby="titulo-controles">
+      <h2 id="titulo-controles">Parâmetros</h2>
+      <div class="controles">
+        <label class="controle controle-1" for="m1">
+          <span class="rotulo"><span class="ponto"></span>m<sub>1</sub> <span class="dica">massa do bloco 1</span></span>
+          <output id="m1-valor" for="m1">2,0 kg</output>
+          <input id="m1" type="range" min="0.5" max="10" step="0.1" value="2">
+        </label>
+        <label class="controle controle-2" for="m2">
+          <span class="rotulo"><span class="ponto"></span>m<sub>2</sub> <span class="dica">massa do bloco 2</span></span>
+          <output id="m2-valor" for="m2">3,0 kg</output>
+          <input id="m2" type="range" min="0.5" max="10" step="0.1" value="3">
+        </label>
+        <label class="controle controle-1" for="v1">
+          <span class="rotulo"><span class="ponto"></span>v<sub>1</sub> <span class="dica">velocidade do bloco 1</span></span>
+          <output id="v1-valor" for="v1">5,0 m/s</output>
+          <input id="v1" type="range" min="-10" max="10" step="0.1" value="5">
+        </label>
+        <label class="controle controle-2" for="v2">
+          <span class="rotulo"><span class="ponto"></span>v<sub>2</sub> <span class="dica">velocidade do bloco 2</span></span>
+          <output id="v2-valor" for="v2">0,0 m/s</output>
+          <input id="v2" type="range" min="-10" max="10" step="0.1" value="0">
+        </label>
+        <label class="controle controle-dt" for="dt">
+          <span class="rotulo"><span class="ponto"></span>Δt <span class="dica">duração do contato</span></span>
+          <output id="dt-valor" for="dt">10 ms</output>
+          <input id="dt" type="range" min="1" max="200" step="1" value="10">
+        </label>
+      </div>
+      <div class="botoes">
+        <button id="btn-pausar" type="button" aria-pressed="false">Pausar</button>
+        <button id="btn-reiniciar" type="button" class="secundario">Reiniciar</button>
+      </div>
+      <p class="nota">Mudar qualquer parâmetro reinicia a simulação. Δt não altera o movimento,
+        só a força média F<sub>med</sub> = |J| / Δt.</p>
+    </aside>
+
+    <div class="conteudo">
+      <section class="cena superficie" aria-labelledby="titulo-cena">
+        <div class="cabecalho">
+          <h2 id="titulo-cena">Animação</h2>
+          <p class="estado"><span id="fase">antes do choque</span><span id="relogio" class="relogio">t = 0,00 s</span></p>
+        </div>
+        <canvas id="cena" class="canvas-cena" role="img"
+                aria-label="Dois blocos em movimento retilíneo uniforme sobre uma pista graduada em metros"></canvas>
+        <p id="aviso" class="aviso" role="status" hidden>Sem colisão: v<sub>1</sub> ≤ v<sub>2</sub>, o bloco 1 nunca alcança o bloco 2.</p>
+      </section>
+
+      <div class="dados">
+        <section class="superficie" aria-labelledby="titulo-painel">
+          <h2 id="titulo-painel">Resultados</h2>
+          <div id="painel" class="resultados" aria-live="polite"></div>
+        </section>
+
+        <section class="superficie" aria-labelledby="titulo-barras">
+          <h2 id="titulo-barras">Antes × depois</h2>
+          <div class="barras">
+            <figure>
+              <figcaption>Momento linear total p (kg·m/s)</figcaption>
+              <canvas id="barras-p" class="canvas-barras" role="img"
+                      aria-label="Barras do momento linear total antes e depois do choque"></canvas>
+            </figure>
+            <figure>
+              <figcaption>Energia cinética total K (J)</figcaption>
+              <canvas id="barras-k" class="canvas-barras" role="img"
+                      aria-label="Barras da energia cinética total antes e depois do choque"></canvas>
+            </figure>
+          </div>
+          <p class="legenda">
+            <span class="amostra amostra-antes"></span>antes
+            <span class="amostra amostra-depois"></span>depois
+            <span class="amostra amostra-perda"></span>dissipado
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <p>ADO-3 · Física: Práticas Extensivas · Prof. Ettore Baldini-Neto</p>
+    <p>Cauã Carvalho de Oliveira, Pedro Henrique Patrício e João Pedro Moz</p>
+  </footer>
+
+  <!-- Ordem importa: física → cinemática → painel → interface -->
+  <script src="js/fisica.js"></script>
+  <script src="js/cinematica.js"></script>
+  <script src="js/painel.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
